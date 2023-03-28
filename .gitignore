@@ -1,68 +1,33 @@
-<<<<<<< HEAD
-*#
-*.iml
-*.ipr
-*.iws
-*.jar
-*.sw?
-*~
-.#*
-.*.md.html
-.DS_Store
-.attach_pid*
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
 .classpath
 .factorypath
-.gradle
-.idea
-.metadata
 .project
-.recommenders
 .settings
 .springBeans
-.vscode
-/code
-MANIFEST.MF
-_site/
-activemq-data
-bin
-build
-!/**/src/**/bin
-!/**/src/**/build
-build.log
-dependency-reduced-pom.xml
-dump.rdb
-interpolated*.xml
-lib/
-manifest.yml
-out
-overridedb.*
-target
-.flattened-pom.xml
-secrets.yml
-.gradletasknamecache
 .sts4-cache
-=======
-# Compiled class file
-*.class
 
-# Log file
-*.log
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
-# BlueJ files
-*.ctxt
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
->>>>>>> branch 'main' of https://github.com/luizPrendin/academicologin.git
+### VS Code ###
+.vscode/
