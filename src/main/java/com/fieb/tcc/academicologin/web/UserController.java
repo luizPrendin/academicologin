@@ -2,9 +2,12 @@ package com.fieb.tcc.academicologin.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.fieb.tcc.academicologin.model.User;
 import com.fieb.tcc.academicologin.service.UserService;
@@ -15,15 +18,25 @@ public class UserController {
 	
 	
 	@Autowired
-	private UserService userService;
+	private UserService userService;	
+	
+	@ModelAttribute("user")
+	public UserDto userDto() {
+		return new UserDto();
+	}
 	
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
 	
+	
 	@GetMapping("/users/home")
-	public String home() {
+	public String home(Model model){
+		
+		String username = userService.getAuthenticatedUser().getEmail();
+		model.addAttribute("username",username);	
+		
 		return "index";
 	}
 	@GetMapping("/usrers/perfil/{username}")
@@ -36,6 +49,10 @@ public class UserController {
 		
 		
 		return "update-registration";
+	}
+	@PostMapping("/users/prfil")
+	public String updatePefilAccount(@ModelAttribute("user")UserDto userDto) {
+		return null;
 	}
 	
 
