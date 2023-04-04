@@ -14,7 +14,7 @@
     </script>
      
      
-     <script type="text/javascript" src="/js/function.js"></script>
+     <script type="text/javascript" src=""></script>
 </head>
 <body>
 	<!-- create navigation bar ( header) -->
@@ -28,9 +28,17 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+				<a class="navbar-brand" href="#" th:href="@{/users/home}">Registration and
 					Login Module</a>
 			</div>
+			
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+					<li> <a th:href="@{/users/perfil/{username} (username=${username})}">Perfil</a></li>
+				</ul>
+			</div>
+				
 		</div>
 	</nav>
 
@@ -64,10 +72,10 @@
 
 					<div class="form-group">
 						<label class="control-label" for="email"> Email </label> <input
-							id="email" class="form-control" th:field="*{email}" 
-							onblur="validarDados('email', document.getElementById('email').value,'/search/api/getSearchResult/');"
+							id="email" class="form-control" th:field="*{email}"
+							onblur="" 
 							required
-							autofocus="autofocus" disabled />	
+							autofocus="autofocus" readonly />	
 					</div>
 					
 					<div id="campo_email" class="alert alert-danger" style="display: none"></div>

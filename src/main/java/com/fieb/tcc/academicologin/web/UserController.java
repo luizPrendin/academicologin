@@ -54,7 +54,7 @@ public class UserController {
 	public String updatePefilAccount(@ModelAttribute("user")UserDto userDto) {
 		User user = userService.update(userDto);
 		
-		return "redirect:/users/perfil/{username}"+user.getEmail();
+		return "redirect:/users/perfil/"+user.getEmail();
 	}
 	
 
