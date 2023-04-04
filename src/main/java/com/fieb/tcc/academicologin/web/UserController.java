@@ -39,7 +39,7 @@ public class UserController {
 		
 		return "index";
 	}
-	@GetMapping("/usrers/perfil/{username}")
+	@GetMapping("/users/perfil/{username}")
 	public String showPerfilForm(@PathVariable("username")String username, ModelMap model) {
 		
 		UserDto userDto= new UserDto();
@@ -50,9 +50,11 @@ public class UserController {
 		
 		return "update-registration";
 	}
-	@PostMapping("/users/prfil")
+	@PostMapping("/users/perfil")
 	public String updatePefilAccount(@ModelAttribute("user")UserDto userDto) {
-		return null;
+		User user = userService.update(userDto);
+		
+		return "redirect:/users/perfil/{username}"+user.getEmail();
 	}
 	
 

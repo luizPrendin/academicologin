@@ -49,7 +49,7 @@
 
 				<h1>Registration</h1>
 
-				<form th:action="@{/registration}" method="post" th:object="${user}">
+				<form th:action="@{/users/perfil}" method="post" th:object="${user}">
 					<div class="form-group">
 						<label class="control-label" for="firstName"> First Name </label>
 						<input id="firstName" class="form-control" th:field="*{firstName}"
@@ -67,7 +67,7 @@
 							id="email" class="form-control" th:field="*{email}" 
 							onblur="validarDados('email', document.getElementById('email').value,'/search/api/getSearchResult/');"
 							required
-							autofocus="autofocus" />	
+							autofocus="autofocus" disabled />	
 					</div>
 					
 					<div id="campo_email" class="alert alert-danger" style="display: none"></div>
