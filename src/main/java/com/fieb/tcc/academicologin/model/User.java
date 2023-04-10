@@ -16,27 +16,44 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
-  
+
 	@Id // Chave Primária
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-Incremento
 	private Long id;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
-	@Column (name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 	private String email;
 	private String password;
 	private String address;
-	private String distric;
+	private String district;
 	private String cep;
 	private String number;
-	private String city;	
+	private String city;
 	private String state;
 	private String country;
-	
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles;
+
+	public User() {
+
+	}
+
+	public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.roles = roles;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -45,12 +62,12 @@ public class User {
 		this.address = address;
 	}
 
-	public String getDistric() {
-		return distric;
+	public String getDistrict() {
+		return district;
 	}
 
-	public void setDistric(String distric) {
-		this.distric = distric;
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 
 	public String getCep() {
@@ -91,27 +108,6 @@ public class User {
 
 	public void setCountry(String country) {
 		this.country = country;
-	}
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-			  name="users_roles",
-			  joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
-			  inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id")
-			)
-	private Collection<Role> roles;
-	
-	public User() {
-		
-	}
-
-	public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -161,6 +157,5 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
+
 }

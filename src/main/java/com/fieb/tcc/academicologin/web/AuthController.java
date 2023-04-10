@@ -1,6 +1,5 @@
 package com.fieb.tcc.academicologin.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,44 +14,42 @@ import com.fieb.tcc.academicologin.web.dto.UserDto;
 
 @Controller
 public class AuthController {
-	
-	
+
 	private UserService userService;
-	
+
 	public AuthController(UserService userService) {
-		
+
 		this.userService = userService;
 	}
-	
-	
+
 	@ModelAttribute("user")
 	public UserDto userDto() {
 		return new UserDto();
 	}
-	
+
 	@GetMapping("/registration")
 	public String showRegistrationForm() {
 		return "registration";
 	}
-	
-	
+
 	@PostMapping("/registration")
 	public String registerUserAccount(@ModelAttribute("user") UserDto userDto) {
 		userService.save(userDto);
 		return "redirect:/registration?success";
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "/registration/ajax/getEmail/{campo}/{valor}")
-	public String getSearchResultViaAjaxRegister(@PathVariable("campo")String campo,
+	public String getSearchResultViaAjaxRegister(@PathVariable("campo") String campo,
 			@PathVariable("valor") String valor) {
-		String msg= "";
+
+		String msg = "";
 		UserDto userDto = new UserDto();
+		userDto.setEmail(valor);
 		User user = userService.findByEmail(userDto);
 		if (user != null) {
-			msg= "Email ja existe ,escolha um email valido!";
-			
+			msg = "Email já existe, escolha um email válido!";
 		}
 		return msg;
 	}
-
 }

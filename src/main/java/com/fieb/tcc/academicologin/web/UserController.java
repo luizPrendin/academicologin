@@ -18,7 +18,7 @@ public class UserController {
 	
 	
 	@Autowired
-	private UserService userService;	
+	UserService userService;
 	
 	@ModelAttribute("user")
 	public UserDto userDto() {
@@ -30,32 +30,28 @@ public class UserController {
 		return "login";
 	}
 	
-	
 	@GetMapping("/users/home")
-	public String home(Model model){
+	public String home(Model model) {
 		
 		String username = userService.getAuthenticatedUser().getEmail();
-		model.addAttribute("username",username);	
+		model.addAttribute("username", username);
 		
 		return "index";
 	}
+	
 	@GetMapping("/users/perfil/{username}")
-	public String showPerfilForm(@PathVariable("username")String username, ModelMap model) {
-		
-		UserDto userDto= new UserDto();
+	public String showPerfilForm(@PathVariable("username") String username, ModelMap model) {
+		UserDto userDto = new UserDto();
 		userDto.setEmail(username);
-		User user= userService.findByEmail(userDto);
-		model.addAttribute("user",user);
-		
-		
+		User user = userService.findByEmail(userDto);
+		model.addAttribute("user", user);
 		return "update-registration";
 	}
-	@PostMapping("/users/perfil")
-	public String updatePefilAccount(@ModelAttribute("user")UserDto userDto) {
-		User user = userService.update(userDto);
-		
-		return "redirect:/users/perfil/"+user.getEmail();
-	}
 	
+	@PostMapping("/users/perfil")
+	public String updatePerfilAccount(@ModelAttribute("user")UserDto userDto) {
+		User user = userService.update(userDto);
+		return "redirect:/users/perfil/" + user.getEmail();
+	}
 
 }
