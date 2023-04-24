@@ -7,16 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "roles")
+@Table(name = "roles")
 public class Role {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	
+
 	// Construtor padrão (Não possui parâmetros)
 	public Role() {
-		
+
 	}
 
 	public Role(String name) {
@@ -39,6 +40,5 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 
 }

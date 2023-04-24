@@ -19,22 +19,21 @@ import com.fieb.tcc.academicologin.service.UserService;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
 	@Autowired
 	private UserService userService;
-	
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
 		auth.setUserDetailsService(userService);
 		auth.setPasswordEncoder(passwordEncoder());
 		return auth;
 	}
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
@@ -42,27 +41,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(
-				"/registration**",
-				"/registration/**",
-				"/js/**",
-				"/css/**",
-				"/img/**"
-				).permitAll()
-		      .and()
-		      .authorizeRequests().antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
-	          .anyRequest().authenticated()
-	          .and()
-	          .formLogin().defaultSuccessUrl("/users/home", true)
-	          .loginPage("/login")
-	          .permitAll()
-	          .and()
-	          .logout()
-	          .invalidateHttpSession(true)
-	          .clearAuthentication(true)
-	          .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-	          .logoutSuccessUrl("/login?logout")
-	          .permitAll();
+		http.authorizeRequests().antMatchers("/registration**", "/registration/**","/api/**", "/js/**", "/css/**", "/img/**")
+				.permitAll().and().authorizeRequests().antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
+				.anyRequest().authenticated().and().formLogin().defaultSuccessUrl("/users/home", true)
+				.loginPage("/login").permitAll().and().logout().invalidateHttpSession(true).clearAuthentication(true)
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
+				.permitAll();
 	}
-	
+
 }

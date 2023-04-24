@@ -1,6 +1,6 @@
 package com.fieb.tcc.academicologin.service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.fieb.tcc.academicologin.model.Role;
 import com.fieb.tcc.academicologin.model.User;
+import com.fieb.tcc.academicologin.repository.RoleRepository;
 import com.fieb.tcc.academicologin.repository.UserRepository;
 import com.fieb.tcc.academicologin.web.dto.UserDto;
 
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -48,9 +52,10 @@ public class UserServiceImpl implements UserService {
 	public User save(UserDto userDto) {
 
 		User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(),
-				passwordEncoder.encode(userDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
-
-		return userRepository.save(user);
+				passwordEncoder.encode(userDto.getPassword()), new ArrayList<>());
+		userRepository.save(user);
+		this.addRoleToUser(user.getEmail(), "ROLE_USER");
+		return user;
 	}
 
 	@Override
@@ -68,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		user.setAddress(userDto.getAddress());
 		user.setCep(userDto.getCep());
 		user.setCity(userDto.getCity());
-		user.setDistric(userDto.getDistric());
+		user.setDistrict(userDto.getDistrict());
 		user.setCountry(userDto.getCountry());
 		user.setNumber(userDto.getNumber());
 		user.setState(userDto.getState());
@@ -91,6 +96,22 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByEmail(username);
 
 		return user;
+	}
+
+	@Override
+	public Role saveRole(Role role) {
+
+		return roleRepository.save(role);
+
+	}
+
+	@Override
+	public void addRoleToUser(String username, String rolename) {
+		User user = userRepository.findByEmail(username);
+		Role role = roleRepository.findByName(rolename);
+		user.getRoles().add(role);
+		userRepository.save(user);
+
 	}
 
 }
